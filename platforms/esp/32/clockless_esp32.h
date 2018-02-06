@@ -153,7 +153,7 @@ protected:
     virtual void showPixels(PixelController<RGB_ORDER> & pixels)
     {
         mWait.wait();
-	esp_intr_alloc(ETS_RMT_INTR_SOURCE, 0, handleInterrupt, this, &mRMT_intr_handle);
+	esp_err_t intr_setup = esp_intr_alloc(ETS_RMT_INTR_SOURCE, 0, handleInterrupt, this, &mRMT_intr_handle);
 
 	// -- Initialize the local state, save a pointer to the pixel data
 	local_pixels = &pixels;
@@ -177,7 +177,7 @@ protected:
 	vSemaphoreDelete(mTX_sem);
 	mTX_sem = NULL;
 
-	esp_intr_free(mRMT_intr_handle);
+	if (intr_setup == ESP_OK) esp_intr_free(mRMT_intr_handle);
 	mWait.mark();
     }
 
