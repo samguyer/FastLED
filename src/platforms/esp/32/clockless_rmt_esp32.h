@@ -173,6 +173,7 @@ __attribute__ ((always_inline)) inline static uint32_t __clock_cycles() {
 #define NS_TO_CYCLES(n)             ( (n) / NS_PER_CYCLE )
 #define RMT_RESET_DURATION          NS_TO_CYCLES(50000)
 
+
 // -- Core or custom driver
 #ifndef FASTLED_RMT_BUILTIN_DRIVER
 #define FASTLED_RMT_BUILTIN_DRIVER false
@@ -211,7 +212,8 @@ private:
     // -- Pixel data
     uint8_t *      mPixelData;
     int            mSize;
-    int            mCur;
+    uint8_t *      mCurPtr;
+    uint8_t *      mEndPtr;
 
     // -- RMT memory
     volatile uint32_t * mRMT_mem_ptr;
